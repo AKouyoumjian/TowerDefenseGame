@@ -8,6 +8,8 @@ public class BaseBehavior : MonoBehaviour
     public Slider healthSlider;
     public ParticleSystem baseAttackVfx;
     public GameObject losePanel;
+    // audio when base takes damage
+    public AudioClip baseDamageSFX;
 
     int maxHealth;
     void Start()
@@ -54,7 +56,11 @@ public class BaseBehavior : MonoBehaviour
                 {
                     baseAttackVfx.Play();
                 }
-
+                if (baseDamageSFX)
+                {
+                    // was playing too quietly, so increased by 2f and put at camera position
+                    AudioSource.PlayClipAtPoint(baseDamageSFX, Camera.main.transform.position, 2f);
+                }
                 Debug.Log("Base took damage: " + baseDamageValue);
             }
             Destroy(other.gameObject);

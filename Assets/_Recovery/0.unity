@@ -5759,7 +5759,6 @@ MonoBehaviour:
   healthSlider: {fileID: 446022165}
   baseAttackVfx: {fileID: 1922049491}
   losePanel: {fileID: 1923210934}
-  baseDamageSFX: {fileID: 8300000, guid: e10115bd99a564d38aa5ea4f418b1eda, type: 3}
 --- !u!1001 &1447850654
 PrefabInstance:
   m_ObjectHideFlags: 0
