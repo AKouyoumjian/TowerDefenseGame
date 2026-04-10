@@ -15,11 +15,16 @@ public class WaveSpawner : MonoBehaviour
         public float spawnInterval = 2f;
     }
 
+    [Header("Wave Settings")]
     public Wave[] waves;
     public float timeBetweenWaves = 5f;
+
+    [Header("UI Elements")]
     public TMP_Text waveText;
     public GameObject waveAnnouncementPanel;
     public TMP_Text waveAnnouncementText;
+    public GameObject winPanel;
+
     int currentWaveIndex = 0;
     void Start()
     {
@@ -34,8 +39,19 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator ReleaseWaves()
     {
+        bool hasLost = false;
         while (currentWaveIndex < waves.Length)
         {
+            // check if player lost before starting next wave
+            // find basebehavior
+            BaseBehavior baseBehavior = FindFirstObjectByType<BaseBehavior>();
+            if (baseBehavior == null || baseBehavior.health <= 0)
+            {
+                Debug.Log("Player lost on wave " + currentWaveIndex);
+                hasLost = true;
+                yield break; // stop releasing waves if player lost
+            }
+
             // Debug.Log("Wave " + (currentWaveIndex + 1) + " Incoming!");
             UpdateWaveText();
             AnnounceWave();
@@ -55,6 +71,17 @@ public class WaveSpawner : MonoBehaviour
 
             Debug.Log("Last Wave is " + currentWaveIndex);
         }
+
+        if (hasLost)
+        {
+            // if player lost, do not trigger win sequence
+            yield break;
+        }
+
+        Debug.Log("All waves completed!");
+        // trigger end game sequence once all enemies are dead
+        yield return new WaitUntil(AreAllEnemiesDestroyed);
+        HandleWin();
     }
 
     IEnumerator SpawnWave(Wave wave)
@@ -106,5 +133,23 @@ public class WaveSpawner : MonoBehaviour
         waveAnnouncementPanel.SetActive(true);
         yield return new WaitForSeconds(timeBetweenWaves);
         waveAnnouncementPanel.SetActive(false);
+    }
+
+    void HandleWin()
+    {
+        if (winPanel)
+        {
+            winPanel.SetActive(true);
+        }
+
+        Time.timeScale = 0f;
+    }
+
+    public void ResetWaveSpawner()
+    {
+        currentWaveIndex = 0;
+        PlayerPrefs.SetInt("LastWave", currentWaveIndex);
+        PlayerPrefs.Save();
+        UpdateWaveText();
     }
 }
