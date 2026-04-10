@@ -7,6 +7,7 @@ public class BaseBehavior : MonoBehaviour
     public int health = 100;
     public Slider healthSlider;
     public ParticleSystem baseAttackVfx;
+    public GameObject losePanel;
 
     int maxHealth;
     void Start()
@@ -62,6 +63,34 @@ public class BaseBehavior : MonoBehaviour
 
     public void GameLost()
     {
+        Time.timeScale = 0f; // freeze game
+        // trigger lose UI
+        if (losePanel)
+        {
+            losePanel.SetActive(true);
+        }
+
+        // wait 2 seconds then restart
+        Invoke("RestartGame", 2f);
+    }
+
+    void RestartGame()
+    {
+        Time.timeScale = 1f; // unfreeze
+
+        if (MoneyManager.Instance)
+        {
+            MoneyManager.Instance.ResetMoney();
+        }
+
+        // find WaveSpawner and call reset
+        WaveSpawner spawner = FindFirstObjectByType<WaveSpawner>();
+        if (spawner)
+        {
+            spawner.ResetWaveSpawner();
+        }
+
+        // reload current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
