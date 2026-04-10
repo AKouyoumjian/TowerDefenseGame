@@ -17,6 +17,14 @@ public class PauseMenuBehavior : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            // remove wave announcement when paused, it was causing issues with pause buttons
+            WaveSpawner spawner = FindFirstObjectByType<WaveSpawner>();
+            if (spawner)
+            {
+                spawner.ClearWaveAnnouncement();
+            }
+
+            // toggle pause
             if (isGamePaused)
             {
                 ResumeGame();

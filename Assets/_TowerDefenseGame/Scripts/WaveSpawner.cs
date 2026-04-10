@@ -51,8 +51,6 @@ public class WaveSpawner : MonoBehaviour
                 hasLost = true;
                 yield break; // stop releasing waves if player lost
             }
-
-            // Debug.Log("Wave " + (currentWaveIndex + 1) + " Incoming!");
             UpdateWaveText();
             AnnounceWave();
             yield return new WaitForSeconds(timeBetweenWaves);
@@ -71,17 +69,14 @@ public class WaveSpawner : MonoBehaviour
 
             Debug.Log("Last Wave is " + currentWaveIndex);
         }
-
-        if (hasLost)
-        {
-            // if player lost, do not trigger win sequence
-            yield break;
-        }
-
         Debug.Log("All waves completed!");
         // trigger end game sequence once all enemies are dead
         yield return new WaitUntil(AreAllEnemiesDestroyed);
-        HandleWin();
+
+        if (!hasLost)
+        {
+            HandleWin();
+        }
     }
 
     IEnumerator SpawnWave(Wave wave)
@@ -151,5 +146,13 @@ public class WaveSpawner : MonoBehaviour
         PlayerPrefs.SetInt("LastWave", currentWaveIndex);
         PlayerPrefs.Save();
         UpdateWaveText();
+    }
+
+    public void ClearWaveAnnouncement()
+    {
+        if (waveAnnouncementPanel)
+        {
+            waveAnnouncementPanel.SetActive(false);
+        }
     }
 }
