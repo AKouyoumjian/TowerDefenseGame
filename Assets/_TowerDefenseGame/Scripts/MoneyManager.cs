@@ -22,7 +22,8 @@ public class MoneyManager : MonoBehaviour
         Instance = this;
 
         // when loading different scene, persists this instance
-        DontDestroyOnLoad(gameObject);
+        // for now, disabled to help with reseting game logic
+        // DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -36,6 +37,8 @@ public class MoneyManager : MonoBehaviour
         if (currentMoney >= cost)
         {
             currentMoney -= cost;
+            // clamp prevent neg
+            currentMoney = Mathf.Max(0, currentMoney - cost);
             UpdateMoneyText();
             return true;
         }
@@ -59,5 +62,11 @@ public class MoneyManager : MonoBehaviour
     public int GetCurrentMoney()
     {
         return currentMoney;
+    }
+
+    public void ResetMoney()
+    {
+        currentMoney = startingMoney;
+        UpdateMoneyText();
     }
 }

@@ -31,6 +31,7 @@ public class PauseMenuBehavior : MonoBehaviour
 
     public void ResumeGame()
     {
+        Debug.Log("Resuming the Game");
         isGamePaused = false;
         Time.timeScale = 1f; // unfreeze game
         if (pauseMenuPanel)
@@ -54,15 +55,36 @@ public class PauseMenuBehavior : MonoBehaviour
     public void LoadMainMenu()
     {
         Debug.Log("Loading Main Menu Scene");
-        // SceneManager.LoadScene(0);
-        // just reload this scene for now
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // find WaveSpawner and call reset
+
+        RestartGame();
     }
 
     public void ExitGame()
     {
         Debug.Log("Exiting the Game");
-        Application.Quit();
+        // Application.Quit();
+
+        RestartGame();
+    }
+
+    public void RestartGame()
+    {
+        Debug.Log("Restarting the Game");
+
+        if (MoneyManager.Instance)
+        {
+            MoneyManager.Instance.ResetMoney();
+        }
+
+        // find WaveSpawner and call reset
+        WaveSpawner spawner = FindFirstObjectByType<WaveSpawner>();
+        if (spawner)
+        {
+            spawner.ResetWaveSpawner();
+        }
+
+        ResumeGame();
 
         // just reload this scene for now
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
