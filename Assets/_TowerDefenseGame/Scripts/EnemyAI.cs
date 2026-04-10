@@ -212,6 +212,8 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
+        Debug.Log("Enemy shooting");
+
         if (!projectilePrefab || !firePoint)
         {
             Debug.LogWarning("Projectile prefab or fire point not assigned.");
@@ -261,7 +263,7 @@ public class EnemyAI : MonoBehaviour
 
         if (Physics.Raycast(firePoint.position, direction, out hit, detectionRange))
         {
-            if (hit.collider.CompareTag("Tower"))
+            if (hit.collider.CompareTag("Tower") || hit.collider.transform.root.CompareTag("Tower"))
             {
                 Debug.Log("Tower is in sight: " + hit.collider.name);
                 return true;
@@ -269,7 +271,8 @@ public class EnemyAI : MonoBehaviour
         }
 
         // if not we return false
-        return false;
+        // return false; temp return true as raycast is hitting objects in between and causing tank not to shoot
+        return true;
     }
 
     public int GetEnemyDamageValue()
