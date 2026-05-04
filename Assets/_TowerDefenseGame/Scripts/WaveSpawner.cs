@@ -31,9 +31,11 @@ public class WaveSpawner : MonoBehaviour
         // Deletes saved wave data
         // PlayerPrefs.DeleteKey("LastWave");
 
-        // get saved wave progress, if none then default 0
-        currentWaveIndex = PlayerPrefs.GetInt("LastWave", 0);
-        Debug.Log("Last Wave index retrieved is " + currentWaveIndex);
+        // for now, just always start wave 0
+        // // get saved wave progress, if none then default 0
+        // currentWaveIndex = PlayerPrefs.GetInt("LastWave", 0);
+        // Debug.Log("Last Wave index retrieved is " + currentWaveIndex);
+
         StartCoroutine(ReleaseWaves());
     }
 

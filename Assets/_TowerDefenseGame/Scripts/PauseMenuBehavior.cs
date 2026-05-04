@@ -1,16 +1,12 @@
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenuBehavior : MonoBehaviour
 {
     public GameObject pauseMenuPanel;
-    bool isGamePaused = false;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    public AudioClip pauseSFX;
 
-    }
+    bool isGamePaused = false;
 
     // Update is called once per frame
     void Update()
@@ -22,6 +18,12 @@ public class PauseMenuBehavior : MonoBehaviour
             if (spawner)
             {
                 spawner.ClearWaveAnnouncement();
+            }
+
+            // play pauseSFX
+            if (pauseSFX)
+            {
+                AudioSource.PlayClipAtPoint(pauseSFX, Camera.main.transform.position);
             }
 
             // toggle pause

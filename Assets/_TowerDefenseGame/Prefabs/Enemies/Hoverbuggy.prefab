@@ -444,6 +444,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5686713441189274040, guid: 4a300529e8aba4f12893da9f2717ad73, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8698779321223170275, guid: 4a300529e8aba4f12893da9f2717ad73, type: 3}
       propertyPath: m_Name
       value: HealthBar
