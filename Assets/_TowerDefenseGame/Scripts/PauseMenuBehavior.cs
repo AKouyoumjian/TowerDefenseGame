@@ -62,20 +62,10 @@ public class PauseMenuBehavior : MonoBehaviour
         }
     }
 
-    public void LoadMainMenu()
-    {
-        Debug.Log("Loading Main Menu Scene");
-        // find WaveSpawner and call reset
-
-        RestartGame();
-    }
-
     public void ExitGame()
     {
         Debug.Log("Exiting the Game");
-        // Application.Quit();
-
-        RestartGame();
+        Application.Quit();
     }
 
     public void RestartGame()

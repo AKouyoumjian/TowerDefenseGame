@@ -41,6 +41,15 @@ public class WaveSpawner : MonoBehaviour
 
     IEnumerator ReleaseWaves()
     {
+        // Before releasing waves, find GameManager and wait for Start Announcements to finish
+        GameManager gameManager = FindFirstObjectByType<GameManager>();
+        if (gameManager)
+        {
+            // wait for start announcement to finish before starting waves
+            yield return new WaitForSeconds(gameManager.GetTotalWaitBeforeStartAnnouncement());
+        }
+
+        // Now release wave logic
         bool hasLost = false;
         while (currentWaveIndex < waves.Length)
         {
